@@ -1,9 +1,9 @@
-
+import Sidebar from "./components/side_bar"
 
 function App() {
 
   return (
-    <h1>Hellow qoe</h1>
+    <Sidebar />
   )
 }
 
