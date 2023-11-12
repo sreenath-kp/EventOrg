@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const pool = require("./db");
+const jwt = require("jsonwebtoken");
+
 
 
 const app = express();
@@ -12,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
-
+const jwtSecret = "1234567890";
 
 
 app.get('/', async (req, res) => {
@@ -41,13 +43,13 @@ app.post("/register", async (req, res) => {
 
 
 
-app.post('/api/login', async (req, res) => {
+app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
 
         // Query the database to retrieve user data
         const query = {
-            text: 'SELECT id, username, password FROM users WHERE username = $1',
+            text: 'SELECT username, password FROM user_list WHERE username = $1',
             values: [username],
         };
 
@@ -61,12 +63,9 @@ app.post('/api/login', async (req, res) => {
         const user = result.rows[0];
 
         // Compare the hashed password with the provided password
-        const passwordMatch = await bcrypt.compare(password, user.password);
-
-        if (passwordMatch) {
+        if (password == user.password) {
             // Passwords match; generate a JWT token
             const token = jwt.sign({ id: user.id, username: user.username }, jwtSecret);
-
             res.json({ message: 'Login successful', token });
         } else {
             res.status(401).json({ error: 'Invalid username or password' });
@@ -76,6 +75,33 @@ app.post('/api/login', async (req, res) => {
         res.status(500).json({ error: 'Login failed' });
     }
 });
+
+
+
+app.post('/api/events', async (req, res) => {
+    try {
+        const { eventName, date, description } = req.body;
+
+        // Insert the event data into the PostgreSQL database
+        const query = {
+            text: 'INSERT INTO events (event_name, event_date, event_description) VALUES ($1, $2, $3) RETURNING *',
+            values: [eventName, date, description],
+        };
+
+        const result = await pool.query(query);
+
+        const event = result.rows[0];
+
+        res.status(201).json({ message: 'Event added successfully', event });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Event creation failed' });
+    }
+});
+
+
+
+
 
 
 app.listen(port, () => {
