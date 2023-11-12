@@ -78,14 +78,14 @@ app.post('/login', async (req, res) => {
 
 
 
-app.post('/api/events', async (req, res) => {
+app.post('/events', async (req, res) => {
     try {
-        const { eventName, date, description } = req.body;
+        const { event_name, date, location, about, creator_id } = req.body;
 
         // Insert the event data into the PostgreSQL database
         const query = {
-            text: 'INSERT INTO events (event_name, event_date, event_description) VALUES ($1, $2, $3) RETURNING *',
-            values: [eventName, date, description],
+            text: 'INSERT INTO events (event_name, date, location, about, creator_id) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+            values: [event_name, date, location, about, creator_id],
         };
 
         const result = await pool.query(query);
@@ -100,7 +100,46 @@ app.post('/api/events', async (req, res) => {
 });
 
 
+app.put('/events/', async (req, res) => {
+    try {
+        const event_id = req.body.event_id;
+        const { event_name, date, location, about } = req.body;
 
+        // Update the event data in the database
+        const query = {
+            text: 'UPDATE events SET event_name = $1, date = $2, location = $3, about = $4 WHERE event_id = $5 RETURNING *',
+            values: [event_name, date, location, about, event_id],
+        };
+
+        const result = await pool.query(query);
+        const event = result.rows[0];
+
+        res.json({ message: 'Event updated successfully', event });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Event update failed' });
+    }
+});
+
+app.get('/events/creator/', async (req, res) => {
+    try {
+        const creator_id = req.body.creator_id;
+
+        // Query the database to retrieve events associated with the specified creator_id
+        const query = {
+            text: 'SELECT * FROM events WHERE creator_id = $1',
+            values: [creator_id],
+        };
+
+        const result = await pool.query(query);
+        const events = result.rows;
+
+        res.json({ events });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Failed to retrieve events by creator ID' });
+    }
+});
 
 
 
