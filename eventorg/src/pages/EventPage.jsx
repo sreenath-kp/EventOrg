@@ -4,9 +4,9 @@ import { EventScroll } from "../components/EventScroll";
 
 export const EventPage = ({ image, title, date, time, location }) => {
   return (
-    <div className="m-4">
+    <div>
       <Navbar />
-      <div className="flex justify-around items-center pt-16 p-10">
+      <div className="flex justify-between items-center pt-16 p-10 ">
         <img
           src={image}
           alt="event"
@@ -27,14 +27,14 @@ export const EventPage = ({ image, title, date, time, location }) => {
           </div>
         </div>
         <button className="bg-[#E3670C] flex justify-center items-center rounded-xl px-4 py-1">
-          <p className="text-white font-Poppins text-lg font-medium">
+          <p className="text-white font-Poppins text-lg font-medium pl-50">
             Register
           </p>
         </button>
       </div>
-      <div>
-        <h3 className="text-4xl font-Poppins font-medium">About the Event</h3>
-        <p>
+      <div className="mx-8">
+        <h3 className="text-[25px] font-Poppins font-medium">About the Event</h3>
+        <p className=" p-1">
           Lorem ipsum dolor sit amet consectetur. Lobortis ultrices at amet non
           porta cras duis lacus ipsum. Morbi est aliquam cras eget velit eu id
           nisi. Sit congue natoque molestie elementum sit commodo porttitor id.
@@ -42,6 +42,7 @@ export const EventPage = ({ image, title, date, time, location }) => {
           rhoncus adipiscing enim nunc non turpis. Ut aliquam nisi sodales ut.
         </p>
       </div>
+      <h3 className="text-[25px] font-Poppins font-medium mx-8">Similar Events</h3>
       <EventScroll />
     </div>
   );

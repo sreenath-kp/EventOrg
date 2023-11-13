@@ -2,11 +2,11 @@ import React from "react";
 
 export const EventTile = ({ image, title, date, time, location }) => {
   return (
-    <div class="w-[315px] h-[332px] relative rounded-lg shadow m-5">
+    <div class="w-[290px] h-[300px] relative rounded-lg shadow m-5">
       <img
         src={image}
         alt="event"
-        class="w-[315px] h-[210px] rounded-lg object-cover"
+        class="w-[290px] h-[180px] rounded-lg object-cover"
       />
       <div class="left-[20px] absolute p-2">
         <div class="text-black text-[22px] font-medium font-Poppins">

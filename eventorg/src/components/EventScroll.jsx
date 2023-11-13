@@ -17,7 +17,7 @@ export const EventScroll = () => {
 
 const Container = () => {
   return (
-    <div style={{ height: "100%", width: "300px", margin: "16px" }}>
+    <div className="mx-6">
       <EventTile
         image="https://atneventstaffing.com/wp-content/uploads/2018/08/2018_Lipton_Cherry-Fest_Travese-City-MI_Brand-Ambassadors-.jpg.webp"
         title="Event 1"

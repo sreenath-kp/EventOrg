@@ -1,9 +1,13 @@
 import React from "react";
 import Avatar from "../assets/avatar.png";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 
 function Navbar() {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const textColor = isHome ? "text-white" : "text-black";
   return (
-    <nav className="flex justify-between items-center pt-4 px-4">
+    <nav className="flex justify-between items-center pt-6 px-4">
       <div className="flex justify-center gap-4 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +21,7 @@ function Navbar() {
             fill="#E3670C"
           />
         </svg>
-        <p className="text-black font-Poppins text-4xl font-normal">
+        <p className={`${textColor} font-Poppins text-4xl font-normal`}>
           Event<span className="text-[#E3670C]">Org</span>
         </p>
       </div>
@@ -28,7 +32,7 @@ function Navbar() {
           </p>
         </button>
         <button className="flex justify-center gap-2 items-center rounded-xl px-4 py-1">
-          <p className="text-black font-Poppins text-lg font-medium">
+          <p className={`${textColor} font-Poppins text-lg font-medium`}>
             John George
           </p>
           <img src={Avatar} className="w-8 h-8 rounded-full" alt="login" />
